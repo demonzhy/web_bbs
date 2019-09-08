@@ -1,0 +1,168 @@
+
+{% extends "topic/base1.html" %}
+{% block title %}修改个人信息{% endblock%}
+{% block main %}
+
+<head>
+<style>
+    .avatar-upload .avatar-button {
+        text-align:center;
+        {#vertical-align:middel;#}
+
+    }
+    .avatar-form {
+    position: relative;
+    max-width: 205px;
+    margin: auto 170px;
+}
+    .avatar-upload .avatar-button button {
+    display: inline-block;
+    width: 68px;
+    height: 68px;
+    margin-bottom: 0;
+    border-radius: 100%;
+    background: #FFFFFF;
+    border: 1px solid transparent;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    font-weight: normal;
+    transition: all 0.2s ease-in-out;
+}
+
+    .form-actions {
+    border-top: none;
+    background-color: #e1e1e1;
+}
+
+</style>
+</head>
+
+<body translate="no">
+<div class="container">
+    <div class="avatar-upload">
+        <form method="post" action="{{ url_for('index.avatar_add') }}" enctype="multipart/form-data" >
+            <div class="avatar-edit">
+                <input type="file" id="imageUpload" name="avatar" accept=".png, .jpg, .jpeg">
+                <label for="imageUpload"></label>
+
+            </div>
+
+            <div class="avatar-preview">
+                <div id="imagePreview" style="background-image: url({{ u.image }});">
+                </div>
+            </div>
+            <div class="avatar-button" >
+            <button type="submit"  method="post" action="{{ url_for('index.avatar_add') }}"><i class="iconfont icontijiao" style="font-size:150%"></i> 上传</button>
+                </div>
+        </form>
+        </div>
+    <div class="avatar-form">
+    <form id="setting_form" class="form-horizontal" method="post" action="{{ url_for('index.update_sgin') }}">
+        <div class="control-group">
+            <label class="control-label" for="name"><i class="iconfont icondenglu"></i></label>
+
+            <div class="controls">
+                <input class="input-xlarge readonly" id="name" name="name" size="30" type="text"
+                       readonly="true" value="{{ u.username }}">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="email"><i class="iconfont iconyouxiang"></i></label>
+
+            <div class="controls">
+                <input class="input-xlarge readonly" id="email" name="email" size="30" type="text"
+                        value="{{ u.email }}" placeholder="{{ u.email }}">
+
+{#                    <p>同时决定了 Gravatar 头像</p>#}
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="location"><i class="iconfont icondizhi"></i></label>
+
+            <div class="controls">
+                <input class="input-xlarge" id="location" name="location" size="30" type="text"
+                       value="" placeholder="{{ u.location }}">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="weibo"><i class="iconfont iconweibo"></i></label>
+
+            <div class="controls">
+                <input class="input-xlarge" id="weibo" name="blog" size="30" type="text" value=""
+                       placeholder="{{ u.blog }}">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="github"><i class="iconfont icongithub"></i></label>
+
+            <div class="controls">
+                <input class="input-xlarge" id="github" name="github" size="30" type="text"
+                       value="" placeholder="{{ u.github }}">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="signature"><i class="iconfont iconsignature"></i></label>
+
+            <div class="controls">
+                <textarea class="input-xlarge" id="signature" name="signature"  value="" size="30" placeholder="{{ u.signature }}"></textarea>
+            </div>
+        </div>
+        <input type="hidden" id="action" name="action" value="change_setting">
+        <input type="hidden" name="_csrf" value="">
+
+        <div class="form-actions">
+            <input type="submit" class="span-primary submit_btn" data-loading-text="保存中.." value="保存设置">
+        </div>
+    </form>
+        <form id="change_pass_form" class="form-horizontal" action="{{ url_for('index.update_password') }}" method="post">
+        <div class="control-group">
+          <label class="control-label" for="old_pass"><i class="iconfont iconpassword"></i></label>
+
+          <div class="controls">
+            <input class="input-xlarge" type="password" id="old_pass" name="old_pass" size="30" placeholder="当前密码">
+          </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="new_pass"><i class="iconfont iconreset_password"></i></label>
+
+          <div class="controls">
+            <input class="input-xlarge" type="password" id="new_password" name="new_password" size="30" placeholder="新密码">
+          </div>
+        </div>
+        <input type="hidden" id="action" name="action" value="change_password">
+        <input type="hidden" name="_csrf" value="x2xuIOoL-1D9wpcmeKwCDlvHAYZyk5lzsfKk">
+
+        <div class="form-actions">
+          <input type="submit" class="span-primary submit_btn" data-loading-text="更改中.." value="更改密码">
+        </div>
+      </form>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script id="rendered-js">
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#imagePreview').css('background-image', 'url(' + e.target.result + ')');
+                $('#imagePreview').hide();
+                $('#imagePreview').fadeIn(650);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#imageUpload").change(function () {
+        readURL(this);
+    });
+
+</script>
+
+
+</body>
+
+
+
+{% endblock %}

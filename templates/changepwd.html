@@ -1,0 +1,16 @@
+{% extends "topic/base.html" %}
+{% block title %}修改个人信息{% endblock%}
+{% block main %}
+
+<form class="form-horizontal" method="post" action="{{ url_for('index.reset_update', token=token) }}">
+        <div class="control-group">
+            <label class="control-label">新密码</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" name="password">
+            </div>
+        </div>
+        <div class="form-actions">
+            <input type="submit" class="span-primary" value="确认密码">
+        </div>
+    </form>
+{% endblock %}

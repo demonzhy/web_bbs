@@ -1,0 +1,241 @@
+{% extends "topic/base1.html" %}
+{% block title %}论坛主页{% endblock%}
+{% block main %}
+    <head>
+    <style>
+
+        .inner form input {
+            width: 98%;
+            border: none;
+            {#resize: none;#}
+            height: 20px;
+        }
+        {#.inner form {#}
+        {#    width: 98%;#}
+        {#    line-height: 10em;#}
+        {#    height: 400px;#}
+        {#    resize: vertical;#}
+        {#    font-size: 15px;#}
+        {#    padding: .5em;#}
+        {#    border: none;#}
+        {#    margin-left: 2px;#}
+        {#}#}
+        img {
+        width: auto \9;
+        height: 30px;
+        max-width: 100%;
+        vertical-align: middle;
+        border: 0;
+        border-radius: 30px;
+        -ms-interpolation-mode: bicubic;
+        box-shadow: -1px 0px 11px black;
+    }
+    </style>
+    </head>
+    <body>
+<div id='main'>
+
+
+    <div id='content'>
+        <div class='panel'>
+            <div class='header'>
+                <ul class='breadcrumb'>
+                    <li><a href='/message'>消息</a><span class='divider'>/</span></li>
+                </ul>
+            </div>
+            <div class='inner userinfo'>
+                <div class="inner userinfo">
+
+                    <form class='inner form'  method="post" action="{{ url_for('.add') }}">
+                        <p>收件人</p>
+                        <input type="text" name="receiver_id" placeholder="收件人">
+                        <p>标题</p>
+                        <input type="text" name="title" placeholder="标题">
+
+                        <p>内容</p>
+                        <input class="inner form" type="text" name="content" placeholder="内容">
+
+                    <button type="submit" class="btn btn-default btn-lg active">发送邮件</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class='panel'>
+            <div class='header'>
+                <span class='col_fade'>收到邮件</span>
+            </div>
+                {% for r in received %}
+                    <div class='cell'>
+
+                        <a class="user_avatar pull-left" href={{ url_for('index.profile', username=u.username) }}>
+
+                        <img src="{{ u.image }}" height="30" width="30px" title="{{ u.username }}"/>
+                        </a>
+
+                        <a class='last_time pull-right' href="{{ url_for('index.profile',  username=r.sender_user().username)}}">
+                            <img src="{{ r.sender_user().image }}" height="30" width="30px" title="{{ r.sender_user().username }}"/>
+                            <span class="last_active_time">接收时间{{ r.updated_time | format_time }}</span>
+                        </a>
+                        <span class="reply_count pull-left">
+                        <span class="count_of_replies" title="回复数">
+
+                        </span>
+                        <span class="count_seperator"></span>
+                        <span class="count_of_visits" title='点击数'>
+
+                        </span>
+                        </span>
+                        <div class="topic_title_wrapper">
+
+                        <a class='topic_title' href="{{ url_for('.view', id = r.id) }}"> {{ r.title }}</a>
+                        </div>
+                </div>
+                {% endfor %}
+
+{#        <div class='panel'>#}
+{#            <div class='header'>#}
+{#                <span class='col_fade'>最近参与的话题</span>#}
+{#            </div>#}
+{#            {% for my_topic in my_topics %}#}
+{#                <div class='cell'>#}
+{##}
+{#                    <a class="user_avatar pull-left" href={{ url_for('index.profile', username=u.username) }}>#}
+{#                        <img src="{{ u.image }}" height="30" width="30" title="{{ u.username }}"/>#}
+{#                    </a>#}
+{##}
+{#                    <span class="reply_count pull-left">#}
+{#                    <span class="count_of_replies" title="回复数">#}
+{#                      {{ my_topic.replies() | count }}#}
+{#                    </span>#}
+{#                    <span class="count_seperator">/</span>#}
+{#                    <span class="count_of_visits" title='点击数'>#}
+{#                      {{ my_topic.views }}#}
+{#                    </span>#}
+{#                </span>#}
+{##}
+{##}
+{#                    <a class='last_time pull-right' href={{ url_for("topic.detail", id=my_topic.id) }}>#}
+{#                        <img src="{{ u.image }}" height="30" width="30" title="{{ u.username }}"/>#}
+{#                        <span class="last_active_time">回复于{{ my_topic.updated_time | format_time }}</span>#}
+{#                    </a>#}
+{##}
+{##}
+{#                    <div class="topic_title_wrapper">#}
+{##}
+{##}
+{#                        <a class='topic_title' href={{ url_for("topic.detail", id=my_topic.id) }}>#}
+{#                            {{ my_topic.title }}#}
+{#                        </a>#}
+{#                    </div>#}
+{##}
+                    {##}
+                    {##}
+                    {#            <div class='cell more'>#}
+                    {#                <a class='dark' href="/user/waitingsong/replies">查看更多»</a>#}
+                    {#            </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+</div>
+        <div class='panel'>
+            <div class='header'>
+                <span class='col_fade'>发送邮件</span>
+            </div>
+                {% for s in send %}
+                    <div class='cell'>
+                        <a class="user_avatar pull-left" href="{{ url_for('index.profile',  username=s.receiver_user().username)}}">
+                            <img src="{{ s.receiver_user().image }}" height="30" width="30px" title="{{ s.receiver_user().username }}"/>
+
+                        </a>
+                        <span class="reply_count pull-left">
+                        <span class="count_of_replies" title="回复数">
+
+                        </span>
+                        <span class="count_seperator"></span>
+                        <span class="count_of_visits" title='点击数'>
+
+                        </span>
+                        </span>
+
+                        <a class='last_time pull-right' href={{ url_for('index.profile', username=u.username) }}>
+                            <img src="{{ u.image }}" height="30" width="30px" title="{{ u.username }}"/>
+                            <span class="last_active_time">发送时间{{ s.updated_time | format_time }}</span>
+                        </a>
+
+                        <div class="topic_title_wrapper">
+
+                         <a class='topic_title' href="{{ url_for('.view', id = s.id) }}"> {{ s.title }}</a>
+                        </div>
+                </div>
+                {% endfor %}
+
+{#        <div class='panel'>#}
+{#            <div class='header'>#}
+{#                <span class='col_fade'>最近参与的话题</span>#}
+{#            </div>#}
+{#            {% for my_topic in my_topics %}#}
+{#                <div class='cell'>#}
+{##}
+{#                    <a class="user_avatar pull-left" href={{ url_for('index.profile', username=u.username) }}>#}
+{#                        <img src="{{ u.image }}" height="30" width="30" title="{{ u.username }}"/>#}
+{#                    </a>#}
+{##}
+{#                    <span class="reply_count pull-left">#}
+{#                    <span class="count_of_replies" title="回复数">#}
+{#                      {{ my_topic.replies() | count }}#}
+{#                    </span>#}
+{#                    <span class="count_seperator">/</span>#}
+{#                    <span class="count_of_visits" title='点击数'>#}
+{#                      {{ my_topic.views }}#}
+{#                    </span>#}
+{#                </span>#}
+{##}
+{##}
+{#                    <a class='last_time pull-right' href={{ url_for("topic.detail", id=my_topic.id) }}>#}
+{#                        <img src="{{ u.image }}" height="30" width="30" title="{{ u.username }}"/>#}
+{#                        <span class="last_active_time">回复于{{ my_topic.updated_time | format_time }}</span>#}
+{#                    </a>#}
+{##}
+{##}
+{#                    <div class="topic_title_wrapper">#}
+{##}
+{##}
+{#                        <a class='topic_title' href={{ url_for("topic.detail", id=my_topic.id) }}>#}
+{#                            {{ my_topic.title }}#}
+{#                        </a>#}
+{#                    </div>#}
+{##}
+                    {##}
+                    {##}
+                    {#            <div class='cell more'>#}
+                    {#                <a class='dark' href="/user/waitingsong/replies">查看更多»</a>#}
+                    {#            </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+</div>
+
+
+</div>
+
+
+
+
+
+
+{#<p>收到邮件</p>#}
+{#{% for r in received %}#}
+{#    <div>#}
+{#        <a href="{{ url_for('.view', id = r.id) }}"> {{ r.title }}</a>#}
+{#    </div>#}
+{#{% endfor %}#}
+{##}
+{#<p>发送邮件</p>#}
+{#{% for s in send %}#}
+{#    <div>#}
+{#        <a href="{{ url_for('.view', id = s.id) }}"> {{ s.title }}</a>#}
+{#    </div>#}
+{#{% endfor %}#}
+</body>
+{% endblock %}

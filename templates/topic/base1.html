@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<body lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="Bookmark" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/base/base1.css">
+    <link rel="stylesheet" href="/static/css/min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1381934_cdckowfa25j.css">
+
+
+
+</head>
+
+<div class="navbar" >
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="/topic">
+
+          <img src="/images/logo.svg">Action
+
+      </a>
+
+
+      <form id="search_form" class="navbar-search" action="/search">
+        <input type="text" id="q" name="q" class="search-query span3" value="">
+      </form>
+      <ul class="nav pull-right">
+
+        <li>
+            <a href="/topic">
+            <i class="iconfont iconshouye01"></i>
+            首页
+            </a>
+        </li>
+        <li>
+            <a href="/topic/new">
+            <i class="iconfont iconicon-"></i>
+            发布
+            </a>
+        </li>
+        <li>
+            <a href="/message">
+                <i class="iconfont iconxiaoxi"></i>
+                消息
+            </a>
+        </li>
+        <li>
+            <a href="/setting">
+
+            <i class="iconfont iconshezhi"></i>
+            设置
+            </a>
+        </li>
+        <li>
+            <a href="/profile">
+            <i class="iconfont icondenglu"></i>
+            用户
+            </a>
+        </li>
+        <li>
+          <a href="/logout" data-method="post" rel="nofollow">
+              <i class="iconfont icontuichu"></i>
+              退出
+          </a>
+        </li>
+
+      </ul>
+      <a class="btn btn-navbar" id="responsive-sidebar-trigger">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+    </div>
+  </div>
+</div>
+{% block main %}
+{% endblock %}
+</body>
+</html>

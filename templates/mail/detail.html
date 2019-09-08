@@ -1,0 +1,60 @@
+{% extends "topic/base1.html" %}
+{% block title %}论坛主页{% endblock%}
+{% block main %}
+    <head>
+        <style>
+            .panel-form textarea{
+                width:1125px;
+            }
+            .panel-form button{
+                width:280px;
+                color: #7f7f7f;
+            }
+            
+        </style>
+    </head>
+    <body>
+    <div id="main">
+        <div id="content">
+            <div class='panel'>
+                <div class='header topic_header'>
+        <span class="topic_full_title">
+			标题：{{ message.title }}
+      	</span>
+                    <div class="changes">
+            <span>
+{#                时间 {{ message.created_time | format_time }}#}
+            </span>
+            <span>发件人 id: {{ message.sender_id }}</span>
+            <span>收件人 id: {{ message.receiver_id }}</span>
+                                    <span>
+                时间 {{ message.created_time | format_time }}
+            </span>
+
+
+                    </div>
+                </div>
+
+                <div class='inner topic'>
+                    <div class='topic_content'>
+                        <div class="markdown-text">{{ message.content }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    </body>
+
+
+
+{#<p>发件人 id: {{ message.sender_id }}</p>#}
+{#<p>收件人 id: {{ message.receiver_id }}</p>#}
+{#<p>内容</p>#}
+{#<p>{{ message.content }}</p>#}
+
+
+{% endblock %}

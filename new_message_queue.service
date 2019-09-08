@@ -1,0 +1,12 @@
+[Unit]
+Description=newweb_message_queue
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/var/www/my_project/flask_bbs
+ExecStart=/usr/local/bin/celery -A tasks worker --loglevel=info
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

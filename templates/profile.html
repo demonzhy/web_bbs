@@ -1,0 +1,213 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>profile</title>#}
+{#    <link rel="stylesheet" href="//static2.cnodejs.org/public/stylesheets/index.min.23a5b1ca.min.css" media="all"/>#}
+{#</head>#}
+{#<body>#}
+{#<h1>{{ u.username }}页面</h1>#}
+{#<div>#}
+{#    {{ user.id }}#}
+{#</div>#}
+{#<div>#}
+{#    {{ user.username }}#}
+{#</div>#}
+{#<div>#}
+{#    {{ user.password }}#}
+{#</div>#}
+{% extends "topic/base1.html" %}
+{% block title %}论坛主页{% endblock%}
+{% block main %}
+    <head>
+    <style>
+        img {
+        width: auto \9;
+        height: 30px;
+        max-width: 100%;
+        vertical-align: middle;
+        border: 0;
+        border-radius: 30px;
+        -ms-interpolation-mode: bicubic;
+        box-shadow: -1px 0px 11px black;
+    }
+    </style>
+    </head>
+<div id='main'>
+
+
+    <div id='content'>
+        <div class='panel'>
+            <div class='header'>
+                <ul class='breadcrumb'>
+                    <li><a href='/profile'>个人主页</a><span class='divider'>/</span></li>
+                </ul>
+            </div>
+            <div class='inner userinfo'>
+                <div class="inner userinfo">
+                    <div class="user_big_avatar">
+                        <img src="{{ u.image }}" height="30px" width="30px" title="{{ u.username }}"/>
+                    </div>
+                    <a class="dark">{{ u.username }}</a>
+
+                    <div class="user_profile">
+                        <ul class="unstyled">
+                            {#          <span class="big">8920</span> 积分#}
+
+                            {#          <li>#}
+                            {#            <a class="dark" href="/user/atian25/collections" target="_blank">#}
+                            {#              <span class="big collect-topic-count">132</span>个话题收藏#}
+                            {#            </a>#}
+                            {#          </li>#}
+
+
+                            <li>
+                                <i class="iconfont iconzhuye"></i>
+                                <a class="dark" href='/profile' target="_blank">个人主页</a>
+                            </li>
+
+
+                            <li>
+                                <i class="iconfont icondizhi"></i>
+                                <span class="dark">{{ u.location}}</span>
+                            </li>
+
+
+                            <li>
+                                <i class="iconfont icongithub"></i>
+                                <a class="dark" href="{{ u.github }}" target="_blank">
+                                    {{ u.github }}
+                                </a>
+                            </li>
+
+
+                            <li>
+                                <i class="iconfont iconweibo"></i>
+                                <a class="dark" href={{ u.blog }} target="_blank">{{ u.blog }}</a>
+                            </li>
+
+                            <li>
+                                <i class="iconfont iconsignature"></i>
+                                <a class="dark" target="_blank">{{ u.signature }}</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <p class="col_fade">注册时间于{{ u.created_time | format_time }}</p>
+
+                </div>
+                {#                <div class='user_big_avatar'>#}
+                {#                    <img src="{{ u.image }}" height="30" width="30"title="{{ u.username }}"/>#}
+                {#                </div>#}
+                {#                <a class='dark'>用户名 ；{{ u.username }}</a>#}
+                {##}
+                {#                <p class='col_fade'>创建时间：{{ u.created_time | format_time }}</p>#}
+                {#                <p class='col_fade'>个性签名：{{ u.signature }}</p>#}
+                {#                <p class='col_fade'>：{{ u.created_time | format_time }}</p>#}
+
+
+            </div>
+        </div>
+        <div class='panel'>
+            <div class='header'>
+                <span class='col_fade'>最近创建的话题</span>
+            </div>
+            {% for topic in topics %}
+                <div class='cell'>
+
+                    <a class="user_avatar pull-left" href={{ url_for('index.profile', username=u.username) }}>
+                        <img src="{{ u.image }}" height="30px" width="30px" title="{{ u.username }}"/>
+                    </a>
+
+                    <span class="reply_count pull-left">
+                <span class="count_of_replies" title="回复数">
+                  {{ topic.replies() | count }}
+                </span>
+                <span class="count_seperator">/</span>
+                <span class="count_of_visits" title='点击数'>
+                  {{ topic.views }}
+                </span>
+            </span>
+                    {% if topic.last_reply() == None %}
+                    <a class='last_time pull-right' >
+{#                        <img src="{{ u.image }}" height="30" width="30" title="{{ u.username }}"/>#}
+                        <span class="last_active_time"></span>
+                    </a>
+                    {% else %}
+
+
+                    <a class='last_time pull-right' href="{{ url_for('index.profile',  username=topic.last_reply().user().username)}}">
+                        <img src="{{ topic.last_reply().user().image }}" height="30" width="30" title="{{ topic.last_reply().user().username }}"/>
+                        <span class="last_active_time">最后回复于{{ topic.last_reply().created_time| format_time }}</span>
+                    </a>
+                    {% endif %}
+
+                    <div class="topic_title_wrapper">
+
+
+                        <a class='topic_title' href={{ url_for("topic.detail", id=topic.id) }}>
+                            {{ topic.title }}
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class='panel'>
+            <div class='header'>
+                <span class='col_fade'>最近参与的话题</span>
+            </div>
+            {% for my_topic in my_topics %}
+                {% set t = my_topic.user() %}
+                <div class='cell'>
+
+                    <a class="user_avatar pull-left" href={{ url_for('index.profile', username=t.username) }}>
+                        <img src="{{ t.image }}" height="30px" width="30px" title="{{ t.username }}"/>
+                    </a>
+
+                    <span class="reply_count pull-left">
+                    <span class="count_of_replies" title="回复数">
+                      {{ my_topic.replies() | count }}
+                    </span>
+                    <span class="count_seperator">/</span>
+                    <span class="count_of_visits" title='点击数'>
+                      {{ my_topic.views }}
+                    </span>
+                </span>
+
+
+                    <a class='last_time pull-right' href={{ url_for("topic.detail", id=my_topic.id) }}>
+                        <img src="{{ u.image }}" height="30px" width="30px" title="{{ u.username }}"/>
+                        <span class="last_active_time">回复于{{ my_topic.reply_user_time(u.id).created_time | format_time }}</span>
+                    </a>
+
+
+                    <div class="topic_title_wrapper">
+
+
+                        <a class='topic_title' href={{ url_for("topic.detail", id=my_topic.id) }}>
+                            {{ my_topic.title }}
+                        </a>
+                    </div>
+
+                    {##}
+                    {##}
+                    {#            <div class='cell more'>#}
+                    {#                <a class='dark' href="/user/waitingsong/replies">查看更多»</a>#}
+                    {#            </div>#}
+                </div>
+            {% endfor %}
+        </div>
+</div>
+
+
+</div>
+{#<form method="post"#}
+{#      action="{{ url_for('.avatar_add')}}"#}
+{#      enctype="multipart/form-data"#}
+{#>#}
+{#    <input type="file" name="avatar">#}
+{#    <button type="submit">上传头像</button>#}
+{#</form>#}
+{##}
+{#<img src="{{ u.image }} ">#}
+{% endblock %}
